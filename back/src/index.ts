@@ -4,6 +4,7 @@ import * as express from 'express';
 import * as path from 'path';
 import * as cors from 'cors';
 import { AppDataSource } from './db/data-source';
+import InitData from "./config/init"
 
 const PORT: number = 8000;
 
@@ -34,6 +35,6 @@ app.listen(PORT, () => {
     return console.log(`Express is listening at http://localhost:${PORT}`);
 });
 
-
-
-
+setTimeout(() => {
+    InitData();
+}, 500);

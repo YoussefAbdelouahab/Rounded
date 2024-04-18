@@ -12,6 +12,34 @@ export class CallController {
         this.CallController = AppDataSource.getRepository(Call);
     }
 
+    @Get('/init')
+    public async initData() {
+        try {
+            var json = require("../../../data.json")
+            json.forEach((element: Call) => {
+                this.CallController.save(element);
+            });
+            return { succes: "Data Stored" };
+        } catch (err) {
+            return { error: err.message }
+        }
+    }
+
+
+    @Post('/call')
+    public async create(@Body() data: Call) {
+        try {
+            const call: Call = data;
+            if (!call) throw new Error('Call not created');
+
+            await this.CallController.save(call);
+
+            return { success: "Account created", call: call };
+        } catch (err) {
+            return { error: err.message }
+        }
+    }
+
     @Get('/call/:id')
     public async getOne(@Param('id') id: number) {
         try {
@@ -24,9 +52,20 @@ export class CallController {
     }
 
     @Get('/calls')
-    public async getAllCalls() {
+    public async getAll() {
         try {
             const calls: Call = await this.CallController.find({ order: { id: "DESC" } });
+            if (!calls) throw new Error('Calls not found');
+            return calls;
+        } catch (err) {
+            return { error: err.message }
+        }
+    }
+
+    @Get('/calls/:to')
+    public async getAllOfOne(@Param('to') to: string) {
+        try {
+            const calls: Call = await this.CallController.find({ where: { to }, order: { id: "DESC" } });
             if (!calls) throw new Error('Calls not found');
             return calls;
         } catch (err) {
