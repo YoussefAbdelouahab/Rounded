@@ -4,6 +4,8 @@
 ## Database
 - Create a `MySQL` database named `Rounded`
 - Take care to have a user named `root` (see `src/db` file)
+    #### PS
+    Generally a root user is automatically created by installing MySQL so you have nothing to do.
 
 ## Back-end
 ### Install dependencies
