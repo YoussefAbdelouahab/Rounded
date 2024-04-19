@@ -3,7 +3,6 @@ import { JsonController, Param, Body, Get, Post, Put, Delete, Req, UseBefore, Pa
 import { AppDataSource } from '../db/data-source';
 import GetAllStatistics from '../statistics/AllStatistics';
 import { Call } from '../entity/Call';
-import { stat } from 'fs';
 
 @JsonController()
 export class CallController {
@@ -18,7 +17,7 @@ export class CallController {
     public async initData() {
         try {
             var json = require("../../../data.json")
-            json.forEach((element: Call) => {
+            json.forEach((element) => {
                 this.CallController.save(element);
             });
             return { succes: "Data Stored" };

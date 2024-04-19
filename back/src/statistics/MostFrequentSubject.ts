@@ -31,7 +31,7 @@ export default function MostFrequentSubject(calls: Call[]) {
 
     Object.keys(frequency).forEach(function (element) {
         if (frequency[element] == highestValue) {
-            result = `${element} ${frequency[element]}`;
+            result = `${element}`;
         }
 
     });
