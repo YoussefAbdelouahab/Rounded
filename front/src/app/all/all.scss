@@ -1,0 +1,50 @@
+.page {
+    display: flex;
+    background-color: white;
+    min-height: 100vh;
+
+    .dashboard_content {
+        width: 70%;
+        margin-top: 5%;
+        margin-left: 5%;
+        display: flex;
+        flex-direction: column;
+
+        .first_line {
+            display: flex;
+            gap: 10%;
+
+            .agent_container {
+                height: fit-content;
+                display: flex;
+                background-color: #c9c9c9;
+                border-radius: 12px;
+                padding: 12px 24px;
+                padding-bottom: 0;
+                color: #2e2e2e;
+
+                .agent_data {
+
+                    h1,
+                    p {
+                        margin-bottom: 10px;
+                    }
+                }
+
+                img {
+                    margin-top: -15%;
+                    width: 100%;
+                    height: 121%;
+                    color: invert(1)
+                }
+            }
+        }
+
+        .table_container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+    }
+}

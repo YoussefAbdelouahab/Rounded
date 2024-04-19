@@ -55,9 +55,15 @@ export class CallController {
     @Get('/calls')
     public async getAll() {
         try {
-            const calls: Call = await this.CallController.find({ order: { id: "DESC" } });
+            var agents = [];
+            const calls = await this.CallController.find({ order: { id: "DESC" } });
+            calls.forEach(element => {
+                if (!agents.includes(element.to)) {
+                    agents.push(element.to)
+                }
+            });
             if (!calls) throw new Error('Calls not found');
-            return calls;
+            return agents;
         } catch (err) {
             return { error: err.message }
         }
@@ -75,10 +81,10 @@ export class CallController {
         }
     }
 
-    @Patch('/call/:id')
-    public async update(@Param('id') id: number, @Body() data: Call) {
+    @Patch('/call/:from')
+    public async update(@Param('from') from: string, @Body() data: Call) {
         try {
-            const call: Call = await this.CallController.findOne({ where: { id } });
+            const call: Call = await this.CallController.findOne({ where: { from } });
             if (!call) throw new Error('Call not found');
 
             await this.CallController.save({ ...call, ...data });
@@ -89,10 +95,10 @@ export class CallController {
         }
     }
 
-    @Delete('/call/:id')
-    public async remove(@Param('id') id: number) {
+    @Delete('/call/:from')
+    public async remove(@Param('from') from: string) {
         try {
-            const call: Call = await this.CallController.findOne({ where: { id } });
+            const call: Call = await this.CallController.findOne({ where: { from } });
             if (!call) throw new Error('Call not found');
 
             await this.CallController.remove(call);

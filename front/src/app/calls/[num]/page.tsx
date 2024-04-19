@@ -5,14 +5,21 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import "./calls.scss"
 
-import CallTable from "@/components/Table/CallTable";
+import CallTable from "@/components/Table/CallTable/CallTable";
 import TranslateSubject from "@/utils/TranslateSubject";
 import FromatDate from "@/utils/FormatDate";
 import ConvertDuration from "@/utils/ConvertDuration";
 import ConvertNumber from "@/utils/ConvertNumber";
 
+import { BarChart } from '@mui/x-charts/BarChart';
+
+
 export default function Calls() {
     const [agentNumber, setAgenNumber] = useState("");
+    const [checkedrdv, setCheckedRdv] = useState(false);
+    const [checkedordonnance, setCheckedOrdonnance] = useState(false);
+    const [checkedinformation, setCheckedInformation] = useState(false);
+    const [checkedother, setCheckedOther] = useState(false);
     const [calls, setCalls] = useState([
         {
             from: "",
@@ -20,8 +27,11 @@ export default function Calls() {
             date: "",
             duration: 0,
             subject: "",
+            formatedSubject: "",
             summary: "",
-            id: ""
+            id: "",
+            formatedFrom: "",
+            formatedDuration: 0,
         }
     ])
     const [stats, setStats] = useState({
@@ -49,22 +59,192 @@ export default function Calls() {
         ]
     })
 
+    function refreshCalls() {
+        document.getElementById("refresh_button")!.classList.add("rotate");
+        axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
+            .then((res) => {
+                res.data.calls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
+                    element.formatedSubject = TranslateSubject(element.subject)
+                    element.date = FromatDate(element.date);
+                    element.formatedDuration = ConvertDuration(element.duration);
+                    element.formatedFrom = ConvertNumber(element.from)
+                });
+                setCalls(res.data.calls);
+                res.data.statistics.AverageDuration.result = ConvertDuration(res.data.statistics.AverageDuration.result)
+                res.data.statistics.MostFrequentSubject.result = TranslateSubject(res.data.statistics.MostFrequentSubject.result)
+                setStats(res.data.statistics);
+                setAgenNumber(new URL(window.location.href).pathname.split('/')[2])
+            })
+        setTimeout(() => {
+            document.getElementById("refresh_button")!.classList.remove("rotate");
+        }, 1000);
+
+    }
+
+    function ApplyFilter(checkid: string) {
+        if (checkid == "rdv") {
+            setCheckedRdv(!checkedrdv)
+            setCheckedOrdonnance(false);
+            setCheckedInformation(false);
+            setCheckedOther(false);
+            document.getElementById("Ordonnance")!.checked = false;
+            document.getElementById("information")!.checked = false;
+            document.getElementById("other")!.checked = false;
+            if (!checkedrdv) {
+                var FilteredCalls: any[] = []
+                axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
+                    .then((res) => {
+                        res.data.calls.forEach((element: { subject: string }) => {
+                            if (element.subject == "appointment") {
+                                FilteredCalls.push(element)
+                            }
+                        });
+
+                        FilteredCalls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
+                            element.formatedSubject = TranslateSubject(element.subject)
+                            element.date = FromatDate(element.date);
+                            element.formatedDuration = ConvertDuration(element.duration);
+                            element.formatedFrom = ConvertNumber(element.from)
+                        });
+                        setCalls(FilteredCalls);
+                    })
+            } else {
+                axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
+                    .then((res) => {
+                        res.data.calls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
+                            element.formatedSubject = TranslateSubject(element.subject)
+                            element.date = FromatDate(element.date);
+                            element.formatedDuration = ConvertDuration(element.duration);
+                            element.formatedFrom = ConvertNumber(element.from)
+                        });
+                        setCalls(res.data.calls);
+                    })
+            }
+        } else if (checkid == "ordonnance") {
+            setCheckedOrdonnance(!checkedordonnance)
+            setCheckedRdv(false);
+            setCheckedInformation(false);
+            setCheckedOther(false);
+            document.getElementById("rdv")!.checked = false;
+            document.getElementById("information")!.checked = false;
+            document.getElementById("other")!.checked = false;
+
+            if (!checkedordonnance) {
+                var FilteredCalls: any[] = []
+                axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
+                    .then((res) => {
+                        res.data.calls.forEach((element: { subject: string }) => {
+                            if (element.subject == "prescription") {
+                                FilteredCalls.push(element)
+                            }
+                        });
+
+                        FilteredCalls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
+                            element.formatedSubject = TranslateSubject(element.subject)
+                            element.date = FromatDate(element.date);
+                            element.formatedDuration = ConvertDuration(element.duration);
+                            element.formatedFrom = ConvertNumber(element.from)
+                        });
+                        setCalls(FilteredCalls);
+                    })
+            } else {
+                axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
+                    .then((res) => {
+                        res.data.calls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
+                            element.formatedSubject = TranslateSubject(element.subject)
+                            element.date = FromatDate(element.date);
+                            element.formatedDuration = ConvertDuration(element.duration);
+                            element.formatedFrom = ConvertNumber(element.from)
+                        });
+                        setCalls(res.data.calls);
+                    })
+            }
+        } else if (checkid == "information") {
+            setCheckedInformation(!checkedinformation)
+            setCheckedRdv(false)
+            setCheckedOrdonnance(false)
+            setCheckedOther(false)
+            document.getElementById("rdv")!.checked = false;
+            document.getElementById("Ordonnance")!.checked = false;
+            document.getElementById("other")!.checked = false;
+            if (!checkedinformation) {
+                var FilteredCalls: any[] = []
+                axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
+                    .then((res) => {
+                        res.data.calls.forEach((element: { subject: string }) => {
+                            if (element.subject == "information") {
+                                FilteredCalls.push(element)
+                            }
+                        });
+
+                        FilteredCalls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
+                            element.formatedSubject = TranslateSubject(element.subject)
+                            element.date = FromatDate(element.date);
+                            element.formatedDuration = ConvertDuration(element.duration);
+                            element.formatedFrom = ConvertNumber(element.from)
+                        });
+                        setCalls(FilteredCalls);
+                    })
+            } else {
+                console.log("ok")
+                axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
+                    .then((res) => {
+                        res.data.calls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
+                            element.formatedSubject = TranslateSubject(element.subject)
+                            element.date = FromatDate(element.date);
+                            element.formatedDuration = ConvertDuration(element.duration);
+                            element.formatedFrom = ConvertNumber(element.from)
+                        });
+                        setCalls(res.data.calls);
+                    })
+            }
+        } else if (checkid == "other") {
+            setCheckedOther(!checkedother)
+            setCheckedRdv(false)
+            setCheckedOrdonnance(false)
+            setCheckedInformation(false)
+            document.getElementById("rdv")!.checked = false;
+            document.getElementById("Ordonnance")!.checked = false;
+            document.getElementById("information")!.checked = false;
+            if (!checkedother) {
+                var FilteredCalls: any[] = []
+                axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
+                    .then((res) => {
+                        res.data.calls.forEach((element: { subject: string }) => {
+                            if (element.subject == "other") {
+                                FilteredCalls.push(element)
+                            }
+                        });
+
+                        FilteredCalls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
+                            element.formatedSubject = TranslateSubject(element.subject)
+                            element.date = FromatDate(element.date);
+                            element.formatedDuration = ConvertDuration(element.duration);
+                            element.formatedFrom = ConvertNumber(element.from)
+                        });
+                        setCalls(FilteredCalls);
+                    })
+            } else {
+                console.log("ok")
+                axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
+                    .then((res) => {
+                        res.data.calls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
+                            element.formatedSubject = TranslateSubject(element.subject)
+                            element.date = FromatDate(element.date);
+                            element.formatedDuration = ConvertDuration(element.duration);
+                            element.formatedFrom = ConvertNumber(element.from)
+                        });
+                        setCalls(res.data.calls);
+                    })
+            }
+        }
+
+    }
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
             try {
-                axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
-                    .then((res) => {
-                        res.data.calls.forEach((element: { subject: string, date: string, duration: any, from: string }) => {
-                            element.subject = TranslateSubject(element.subject)
-                            element.date = FromatDate(element.date);
-                            element.duration = ConvertDuration(element.duration);
-                            element.from = ConvertNumber(element.from)
-                        });
-                        setCalls(res.data.calls);
-                        setStats(res.data.statistics);
-                        setAgenNumber(new URL(window.location.href).pathname.split('/')[2])
-                    })
+                refreshCalls();
             } catch (error) {
                 console.log(error)
             }
@@ -87,8 +267,78 @@ export default function Calls() {
                             <img src="/assets/man.png" alt="" />
                         </div>
                     </div>
+                    <div className="right_container">
+                        <div className="stats_container">
+                            <div className="data">
+                                <div className="stat_title">
+                                    <p className="p_title">Durée moyenne des appels</p>
+                                    <hr />
+                                </div>
+                                <div className="stat_data">
+                                    <img src="/assets/icon/clock-icon.svg" alt="" />
+                                    <p>{stats.AverageDuration.result}</p>
+                                </div>
+                            </div>
+                            <div className="data">
+                                <div className="stat_title">
+                                    <p className="p_title">Motif le plus fréquent</p>
+                                    <hr />
+                                </div>
+                                <div className="stat_data">
+                                    <img src="/assets/icon/rdv-icon.svg" alt="" />
+                                    <p>{stats.MostFrequentSubject.result}</p>
+                                </div>
+                            </div>
+                            <div className="data">
+                                <div className="stat_title">
+                                    <p className="p_title">Nombre d’appelants uniques</p>
+                                    <hr />
+                                </div>
+                                <div className="stat_data">
+                                    <img src="/assets/icon/client-icon.svg" alt="" />
+                                    <p>{stats.DifferentFrom.result} clients</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="barchart_container">
+                            <BarChart
+                                series={[
+                                    { data: [35, 44, 24, 34] },
+                                    { data: [51, 6, 49, 30] },
+                                    { data: [15, 25, 30, 50] },
+                                    { data: [60, 50, 15, 25] },
+                                ]}
+                                height={290}
+                                xAxis={[{ data: ['Q1', 'Q2', 'Q3', 'Q4'], scaleType: 'band' }]}
+                                margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
+                            />
+                        </div>
+                    </div>
                 </div>
 
+                <div className="table_container">
+                    <div className="filtre">
+                        <p>Filtre : </p>
+                        <div className="inputbox">
+                            <input type="checkbox" id="rdv" name="rdv" onChange={(e) => ApplyFilter("rdv")} />
+                            <label htmlFor="rdv">Rendez-vous</label>
+                        </div>
+                        <div className="inputbox">
+                            <input type="checkbox" id="Ordonnance" name="Ordonnance" onChange={(e) => ApplyFilter("ordonnance")} />
+                            <label htmlFor="Ordonnance">Ordonnance</label>
+                        </div>
+                        <div className="inputbox">
+                            <input type="checkbox" id="information" name="information" onChange={(e) => ApplyFilter("information")} />
+                            <label htmlFor="information">Information</label>
+                        </div>
+                        <div className="inputbox">
+                            <input type="checkbox" id="other" name="other" onChange={(e) => ApplyFilter("other")} />
+                            <label htmlFor="other">Autre</label>
+                        </div>
+
+                    </div>
+                    <button className="refresh_button" id="refresh_button" onClick={() => refreshCalls()}> <img src="/assets/icon/refresh-icon.png" alt="" /> </button>
+                </div>
                 <CallTable calls={calls} />
 
             </div>

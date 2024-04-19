@@ -2,6 +2,7 @@
     display: flex;
     background-color: white;
     min-height: 100vh;
+    position: relative;
 
     .dashboard_content {
         width: 70%;
@@ -38,6 +39,261 @@
                     color: invert(1)
                 }
             }
+
+            .right_container {
+                display: flex;
+                width: 45%;
+
+                .stats_container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    width: 50%;
+
+                    .data {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 15px;
+
+                        .p_title {
+                            font-size: 16px;
+                        }
+                    }
+
+                    p {
+                        font-weight: bold;
+                        font-size: 14px;
+                    }
+
+                    hr {
+                        border: 1px solid lightgray;
+                    }
+
+                    .stat_title {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+                    }
+
+                    .stat_data {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+
+                }
+
+                .barchart_container {
+                    width: 65%;
+                    height: 100%;
+                }
+            }
         }
+
+
+        .table_container {
+            margin-top: 100px;
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-end;
+            position: relative;
+
+            .refresh_button {
+                position: absolute;
+                background-color: transparent;
+                border: none;
+                width: fit-content;
+                right: 0;
+                top: -10px;
+                transition: rotate 1s;
+
+                img {
+
+                    display: flex;
+                    width: 30px;
+                    height: 30px;
+                    cursor: pointer;
+                }
+            }
+
+            .rotate {
+                rotate: 160deg;
+            }
+
+            .filtre {
+                display: flex;
+                gap: 10px;
+                position: absolute;
+                left: 0;
+                top: -8%;
+
+                .inputbox {
+                    display: flex;
+                    gap: 10px;
+                    background-color: #2e2e2e;
+                    color: #9e9ea7;
+                    border-radius: 24px;
+                    padding: 5px 10px;
+                    cursor: pointer;
+                    font-size: 15px;
+                    margin-top: -5px;
+                    align-items: center;
+                    justify-content: center;
+                    transition: 500ms ease-in-out;
+
+                    input[type="checkbox"] {
+                        appearance: none;
+                        -webkit-appearance: none;
+                        display: flex;
+                        align-content: center;
+                        justify-content: center;
+                        font-size: 2rem;
+                        border-radius: 0.5rem;
+
+                    }
+
+                    input[type="checkbox"]::before {
+                        background-image: url('/assets/icon/plus-icon.svg');
+                        background-size: 20px 20px;
+                        background-position: center;
+                        display: inline-block;
+                        width: 20px;
+                        height: 20px;
+                        content: "";
+                    }
+
+                    #rdv:checked::before {
+                        background-image: url('/assets/icon/checkrdv-icon.svg');
+                        background-size: 20px 20px;
+                        display: inline-block;
+                        background-position: center;
+
+                        width: 20px;
+                        height: 20px;
+                        content: "";
+                    }
+
+                    #Ordonnance:checked::before {
+                        background-image: url('/assets/icon/checkordonnance-icon.svg');
+                        background-size: 20px 20px;
+                        display: inline-block;
+                        background-position: center;
+
+                        width: 20px;
+                        height: 20px;
+                        content: "";
+                    }
+
+                    #information:checked::before {
+                        background-image: url('/assets/icon/checkinformation-icon.svg');
+                        background-size: 20px 20px;
+                        display: inline-block;
+                        background-position: center;
+
+                        width: 20px;
+                        height: 20px;
+                        content: "";
+                    }
+
+                    #other:checked::before {
+                        background-image: url('/assets/icon/checkother-icon.svg');
+                        background-size: 20px 20px;
+                        display: inline-block;
+                        background-position: center;
+
+                        width: 20px;
+                        height: 20px;
+                        content: "";
+                    }
+
+
+                    label {
+                        cursor: pointer;
+                    }
+                }
+
+                .inputbox:has(#rdv:checked) {
+                    animation-name: change-color-rdv;
+                    font-weight: 600;
+
+                    background-color: #2A9D8F;
+                    color: #033A34;
+                }
+
+                .inputbox:has(#Ordonnance:checked) {
+                    animation-name: change-color-ordonnance;
+                    font-weight: 600;
+                    background-color: #E9C46A;
+                    color: #3E2E07;
+                }
+
+                .inputbox:has(#information:checked) {
+                    animation-name: change-color-ordonnance;
+                    font-weight: 600;
+                    background-color: #F4A261;
+                    color: #502503;
+                }
+
+                .inputbox:has(#other:checked) {
+                    animation-name: change-color-ordonnance;
+                    font-weight: 600;
+                    background-color: #E76F51;
+                    color: #531E11;
+                }
+
+
+            }
+        }
+
+    }
+}
+
+@keyframes change-color-rdv {
+    from {
+        background-color: #2e2e2e;
+        color: #9e9ea7;
+    }
+
+    to {
+        background-color: #2A9D8F;
+        color: #033A34;
+    }
+}
+
+@keyframes change-color-ordonnance {
+    from {
+        background-color: #2e2e2e;
+        color: #9e9ea7;
+    }
+
+    to {
+        background-color: #E9C46A;
+        color: #3E2E07;
+    }
+}
+
+@keyframes change-color-information {
+    from {
+        background-color: #2e2e2e;
+        color: #9e9ea7;
+    }
+
+    to {
+        background-color: #F4A261;
+        color: #502503;
+    }
+}
+
+@keyframes change-color-other {
+    from {
+        background-color: #2e2e2e;
+        color: #9e9ea7;
+    }
+
+    to {
+        background-color: #E76F51;
+        color: #531E11;
     }
 }

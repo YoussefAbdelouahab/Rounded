@@ -35,6 +35,6 @@ app.listen(PORT, () => {
     return console.log(`Express is listening at http://localhost:${PORT}`);
 });
 
-setTimeout(() => {
-    InitData();
-}, 500);
+// setTimeout(() => {
+//     InitData();
+// }, 500);

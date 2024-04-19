@@ -1,0 +1,41 @@
+.agentTable_container {
+    margin-top: 50px;
+    color: white;
+    box-shadow: 5px 8px 20px 5px rgba(0, 0, 0, 0.55);
+    width: 80%;
+
+    table {
+        background-color: #2e2e2e;
+
+        th {
+            font-weight: 600;
+            cursor: default;
+        }
+
+        tr {
+            cursor: pointer;
+            transition: background 1s;
+            /* For modern browsers */
+            -webkit-transition: background 1s;
+            /* For Safari 3.0 to 6.0 */
+        }
+
+        tbody tr:hover {
+            background-color: white;
+
+            td {
+                color: black;
+            }
+
+            img {
+                filter: invert(1);
+            }
+        }
+
+        th,
+        td {
+            color: white;
+            padding: 12px 24px;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react"
 import { useRouter } from 'next/navigation'
+import CheckNumber from "@/utils/CheckNumber";
 import "./Navbar.scss"
 
 export default function Navbar() {
@@ -17,8 +18,10 @@ export default function Navbar() {
     const [inputData, setInputData] = useState("")
     async function handleKeyDown(event: { key: string; }) {
         if (event.key === 'Enter') {
-            if (event.key === 'Enter') {
-                router.push(`/calls/${inputData}`);
+            if (CheckNumber(inputData) == "error") {
+                return "ko"
+            } else {
+                router.push(`/calls/${CheckNumber(inputData)}`);
             }
         }
     }
@@ -36,7 +39,7 @@ export default function Navbar() {
                     <div className="nav_links">
                         <ul>
                             <a href="/" ><li>Accueil</li></a>
-                            <a href="/agents"><li>Agents</li></a>
+                            <a href="/all"><li>Agents</li></a>
                         </ul>
                     </div>
                     <div className="nav_icons" onClick={() => ShowSearch()}>

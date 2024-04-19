@@ -1,15 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
+import CheckNumber from "@/utils/CheckNumber";
+
 import "./HomeBanner.scss"
 
 export default function HomeBanner() {
     const [inputData, setInputData] = useState("")
+    const [showError, setShowError] = useState(false);
     const router = useRouter()
 
     async function handleKeyDown(event: { key: string; }) {
         if (event.key === 'Enter') {
-            router.push(`/calls/${inputData}`);
+            if (CheckNumber(inputData) == "error") {
+                setShowError(true);
+                return "ko"
+            } else {
+                setShowError(false);
+                router.push(`/calls/${CheckNumber(inputData)}`);
+            }
         }
     }
     return (
@@ -26,6 +35,8 @@ export default function HomeBanner() {
                         <img src="/assets/icon/search-icon.png" alt="" />
                         <input type="text" placeholder="+33769636348" onKeyDown={handleKeyDown} onChange={e => setInputData(e.target.value)} />
                     </div>
+                    {showError ? <p className="error">Format accepté : 0XXXXXXXXX, +33XXXXXXXXX, +33 XX XX XX XX, 0X XX XX XX XX</p> : null}
+
                 </div>
             </div>
         </>
