@@ -86,6 +86,12 @@
                 .barchart_container {
                     width: 65%;
                     height: 100%;
+                    .MuiChartsLegend-mark{
+                        fill: #2e2e2e !important;
+                    }
+                    .css-1vuxth3-MuiBarElement-root{
+                        fill: #2e2e2e !important;
+                    }
                 }
             }
         }

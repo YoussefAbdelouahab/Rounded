@@ -47,7 +47,6 @@ export default function CallTable({ calls = [{
     function DisplayErrors() {
         selectedRow.from = CheckNumber(selectedRow.from);
         selectedRow.to = CheckNumber(selectedRow.to);
-        console.log(selectedRow);
         if (selectedRow.from == "error") {
             setShowErrorPhone1(true);
             return "ko"

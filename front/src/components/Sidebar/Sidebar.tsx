@@ -5,17 +5,30 @@ import CheckNumber from "@/utils/CheckNumber";
 
 import "./Sidebar.scss"
 import { useState } from 'react'
+import axios from 'axios';
 
 export default function Sidebar({ page = "", AgentNumber = "" }) {
     const [inputData, setInputData] = useState("")
+    const [showError, setShowError] = useState(false);
+    const [showError2, setShowError2] = useState(false);
     const router = useRouter()
 
     async function handleKeyDown(event: { key: string; }) {
         if (event.key === 'Enter') {
             if (CheckNumber(inputData) == "error") {
+                setShowError2(false);
+                setShowError(true);
                 return "ko"
             } else {
-                router.push(`/calls/${CheckNumber(inputData)}`);
+                axios.get(`http://localhost:8000/api/calls/${CheckNumber(inputData)}`)
+                    .then((res) => {
+                        if (res.data.calls.length != 0) {
+                            router.push(`/calls/${CheckNumber(inputData)}`);
+                        } else {
+                            setShowError(false);
+                            setShowError2(true);
+                        }
+                    })
             }
         }
     }
@@ -33,6 +46,10 @@ export default function Sidebar({ page = "", AgentNumber = "" }) {
                         <img src="/assets/icon/search-icon.png" alt="" />
                         <input type="text" placeholder={`${AgentNumber}`} onKeyDown={handleKeyDown} onChange={e => setInputData(e.target.value)} />
                     </div>
+                    {showError || showError2 ? <div className="sidebar_error">
+                        {showError ? <p className="error">Format accepté : 0XXXXXXXXX, +33XXXXXXXXX, +33 XX XX XX XX, 0X XX XX XX XX</p> : null}
+                        {showError2 ? <p className="error">Le numéro entré ne correspond à aucun agent.</p> : null}
+                    </div> : null}
                 </div>
             </div>
         </>

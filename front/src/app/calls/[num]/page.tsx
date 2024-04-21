@@ -11,7 +11,9 @@ import FromatDate from "@/utils/FormatDate";
 import ConvertDuration from "@/utils/ConvertDuration";
 import ConvertNumber from "@/utils/ConvertNumber";
 
-import { BarChart } from '@mui/x-charts/BarChart';
+import { BarChart, BarPlot } from '@mui/x-charts/BarChart';
+import { useRouter } from "next/navigation";
+import { ChartContainer } from "@mui/x-charts";
 
 
 export default function Calls() {
@@ -58,11 +60,16 @@ export default function Calls() {
             },
         ]
     })
+    const [dayStats, setDayStats] = useState<any[]>([])
+    const [timeStats, setTimeStats] = useState<any[]>([])
+    const router = useRouter()
 
-    function refreshCalls() {
-        document.getElementById("refresh_button")!.classList.add("rotate");
-        axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
+    async function refreshCalls() {
+        await axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
             .then((res) => {
+                if (res.data.calls.length == 0) {
+                    router.push("/");
+                }
                 res.data.calls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
                     element.formatedSubject = TranslateSubject(element.subject)
                     element.date = FromatDate(element.date);
@@ -73,12 +80,23 @@ export default function Calls() {
                 res.data.statistics.AverageDuration.result = ConvertDuration(res.data.statistics.AverageDuration.result)
                 res.data.statistics.MostFrequentSubject.result = TranslateSubject(res.data.statistics.MostFrequentSubject.result)
                 setStats(res.data.statistics);
+
+                res.data.statistics.AverageTimeSaved.forEach((element: any) => {
+                    setDayStats(dayStats => [...dayStats, element.day]);
+                    setTimeStats(timeStats => [...timeStats, element.timeSaved ]);
+                });
+
                 setAgenNumber(new URL(window.location.href).pathname.split('/')[2])
+                
             })
+    }
+
+    function refreshButton() {
+        document.getElementById("refresh_button")!.classList.add("rotate");
+        refreshCalls();
         setTimeout(() => {
             document.getElementById("refresh_button")!.classList.remove("rotate");
         }, 1000);
-
     }
 
     function ApplyFilter(checkid: string) {
@@ -87,9 +105,13 @@ export default function Calls() {
             setCheckedOrdonnance(false);
             setCheckedInformation(false);
             setCheckedOther(false);
-            document.getElementById("Ordonnance")!.checked = false;
-            document.getElementById("information")!.checked = false;
-            document.getElementById("other")!.checked = false;
+            var ordonnance = document.getElementById("Ordonnance") as HTMLInputElement;
+            ordonnance.checked = false;
+            var information = document.getElementById("information") as HTMLInputElement;
+            information.checked = false;
+            var other = document.getElementById("other") as HTMLInputElement;
+            other.checked = false;
+
             if (!checkedrdv) {
                 var FilteredCalls: any[] = []
                 axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
@@ -125,10 +147,12 @@ export default function Calls() {
             setCheckedRdv(false);
             setCheckedInformation(false);
             setCheckedOther(false);
-            document.getElementById("rdv")!.checked = false;
-            document.getElementById("information")!.checked = false;
-            document.getElementById("other")!.checked = false;
-
+            var rdv = document.getElementById("rdv") as HTMLInputElement;
+            rdv.checked = false;
+            var information = document.getElementById("information") as HTMLInputElement;
+            information.checked = false;
+            var other = document.getElementById("other") as HTMLInputElement;
+            other.checked = false;
             if (!checkedordonnance) {
                 var FilteredCalls: any[] = []
                 axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
@@ -164,9 +188,12 @@ export default function Calls() {
             setCheckedRdv(false)
             setCheckedOrdonnance(false)
             setCheckedOther(false)
-            document.getElementById("rdv")!.checked = false;
-            document.getElementById("Ordonnance")!.checked = false;
-            document.getElementById("other")!.checked = false;
+            var rdv = document.getElementById("rdv") as HTMLInputElement;
+            rdv.checked = false;
+            var ordonnance = document.getElementById("Ordonnance") as HTMLInputElement;
+            ordonnance.checked = false;
+            var other = document.getElementById("other") as HTMLInputElement;
+            other.checked = false;
             if (!checkedinformation) {
                 var FilteredCalls: any[] = []
                 axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
@@ -186,7 +213,6 @@ export default function Calls() {
                         setCalls(FilteredCalls);
                     })
             } else {
-                console.log("ok")
                 axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
                     .then((res) => {
                         res.data.calls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
@@ -203,9 +229,12 @@ export default function Calls() {
             setCheckedRdv(false)
             setCheckedOrdonnance(false)
             setCheckedInformation(false)
-            document.getElementById("rdv")!.checked = false;
-            document.getElementById("Ordonnance")!.checked = false;
-            document.getElementById("information")!.checked = false;
+            var rdv = document.getElementById("rdv") as HTMLInputElement;
+            rdv.checked = false;
+            var ordonnance = document.getElementById("Ordonnance") as HTMLInputElement;
+            ordonnance.checked = false;
+            var rdv = document.getElementById("rdv") as HTMLInputElement;
+            rdv.checked = false;
             if (!checkedother) {
                 var FilteredCalls: any[] = []
                 axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
@@ -225,7 +254,6 @@ export default function Calls() {
                         setCalls(FilteredCalls);
                     })
             } else {
-                console.log("ok")
                 axios.get(`http://localhost:8000/api/calls/${new URL(window.location.href).pathname.split('/')[2]}`)
                     .then((res) => {
                         res.data.calls.forEach((element: { subject: string, date: string, duration: any, formatedDuration: any, formatedSubject: string, from: string, formatedFrom: string }) => {
@@ -240,11 +268,12 @@ export default function Calls() {
         }
 
     }
-
     useEffect(() => {
         if (typeof window !== 'undefined') {
             try {
                 refreshCalls();
+                setDayStats(dayStats.filter(a => a));
+                setTimeStats(timeStats.filter(a => a));
             } catch (error) {
                 console.log(error)
             }
@@ -302,15 +331,12 @@ export default function Calls() {
                         </div>
                         <div className="barchart_container">
                             <BarChart
+                                width={500}
+                                height={300}
                                 series={[
-                                    { data: [35, 44, 24, 34] },
-                                    { data: [51, 6, 49, 30] },
-                                    { data: [15, 25, 30, 50] },
-                                    { data: [60, 50, 15, 25] },
+                                    { data: timeStats, label: 'Temps gagné (minute)', id: 'Temps gagné' },
                                 ]}
-                                height={290}
-                                xAxis={[{ data: ['Q1', 'Q2', 'Q3', 'Q4'], scaleType: 'band' }]}
-                                margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
+                                xAxis={[{ data: dayStats, scaleType: 'band' }]}
                             />
                         </div>
                     </div>
@@ -337,7 +363,7 @@ export default function Calls() {
                         </div>
 
                     </div>
-                    <button className="refresh_button" id="refresh_button" onClick={() => refreshCalls()}> <img src="/assets/icon/refresh-icon.png" alt="" /> </button>
+                    <button className="refresh_button" id="refresh_button" onClick={() => refreshButton()}> <img src="/assets/icon/refresh-icon.png" alt="" /> </button>
                 </div>
                 <CallTable calls={calls} />
 
