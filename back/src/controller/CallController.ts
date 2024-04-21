@@ -41,16 +41,6 @@ export class CallController {
         }
     }
 
-    @Get('/call/:id')
-    public async getOne(@Param('id') id: number) {
-        try {
-            const call: Call = await this.CallController.findOne({ where: { id } });
-            if (!call) throw new Error('Call not found');
-            return call;
-        } catch (err) {
-            return { error: err.message }
-        }
-    }
 
     @Get('/calls')
     public async getAll() {

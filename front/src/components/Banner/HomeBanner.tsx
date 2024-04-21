@@ -46,9 +46,9 @@ export default function HomeBanner() {
                         <input type="text" placeholder="+33769636348" onKeyDown={handleKeyDown} onChange={e => setInputData(e.target.value)} />
                     </div>
                     {showError ? <p className="error">Format accepté : 0XXXXXXXXX, +33XXXXXXXXX, +33 XX XX XX XX, 0X XX XX XX XX</p> : null}
-                    {showError2 ? <p className="error">Numéro eronné, l'agent n'éxiste pas.</p> : null}
+                    {showError2 ? <p className="error">Numéro eronné, l&apos;agent n&apos;éxiste pas.</p> : null}
                     {showError || showError2 ? <div className="forget_agent">
-                        <p>Vous ne vous souvenez plus du numéro de l'agent ?</p>
+                        <p>Vous ne vous souvenez plus du numéro de l&apos;agent ?</p>
                         <a href="/all"><button className="forget">Aucun problème</button></a>
                     </div> : null}
 
