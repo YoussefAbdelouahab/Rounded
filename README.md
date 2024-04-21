@@ -28,8 +28,6 @@ Rounded project - Technical test - 2024
   - [Start the front](#start-the-front)
   - [Or](#or)
 - [API](#api)
-- [Annexes](#annexes)
-  - [Table des illustrations](#table-des-illustrations)
 
 ## Database
 - Create a `MySQL` database named `Rounded`
