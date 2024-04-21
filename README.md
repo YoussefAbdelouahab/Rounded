@@ -19,17 +19,15 @@ Rounded project - Technical test - 2024
   - [Table of content](#table-of-content)
 - [Database](#database)
   - [Tips](#ps)
-- [Back](#front)
+- [Back](#back-end)
   - [Install dependencies](#install-dependencies)
   - [Start the back](#start-the-back)
     - [Warning](#🔴-warning)
-- [Front](#front)
+- [Front](#front-end)
   - [Install dependencies](#install-dependencies-1)
   - [Start the front](#start-the-front)
   - [Or](#or)
 - [API](#api)
-- [Annexes](#annexes)
-  - [Table des illustrations](#table-des-illustrations)
 
 ## Database
 - Create a `MySQL` database named `Rounded`
