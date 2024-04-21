@@ -48,3 +48,25 @@
         }
     }
 }
+
+@media (max-width: 769px){
+    .table_container{
+        display: block !important;
+    }
+    .css-quj9j6-MuiTable-root{
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+@media (max-width: 426px){
+    .first_line{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        h1{
+            font-size: 26px;
+            text-align: center;
+        }
+    }
+}

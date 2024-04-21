@@ -1,6 +1,6 @@
 .sidebar {
     width: 20%;
-    min-height: 100;
+    min-height: 100vh;
     background-color: black;
     display: flex;
     flex-direction: column;
@@ -20,6 +20,7 @@
         display: flex;
         flex-direction: column;
         width: 80%;
+
         .active {
             background: #FFF !important;
             padding: 12px 24px !important;
@@ -79,8 +80,10 @@
                 filter: invert(1);
             }
         }
+
         .sidebar_error {
             margin-top: 20px;
+
             .error {
                 background-color: #E67575;
                 padding: 5px 10px;
@@ -88,8 +91,84 @@
                 font-size: 12px;
                 color: white;
             }
-    
+
         }
     }
 
+}
+
+.sidebar_responsive {
+    width: 20%;
+    min-height: 100vh;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .e_logo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        img {
+            width: 90%;
+        }
+    }
+
+    .sidebar_links {
+        display: flex;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        width: 80%;
+        gap: 30px;
+        .img_bg{
+            width: fit-content;
+            background-color: white;
+            box-shadow: 2px 3px 10px 1px rgba(255, 255, 255, 0.55);
+            border-radius: 12px;
+            padding: 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img {
+                width: 40px;
+                height: 40px;
+                filter: invert(1);
+            }
+        }
+    }
+
+    .active{
+        background-color: black !important;
+        img{
+            filter: invert(0) !important;
+        }
+    }
+
+}
+
+@media (max-width: 1390px) {
+    .sidebar {
+        display: none;
+    }
+}
+
+@media (min-width: 1391px) {
+    .sidebar_responsive {
+        display: none;
+    }
+}
+
+@media (max-width: 426px) {
+    .sidebar_responsive{
+        .img_bg{
+            padding: 10px 10px !important;
+            img {
+                width: 30px !important;
+                height: 30px !important;
+            }
+        }
+    }
+    
 }

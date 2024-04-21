@@ -110,3 +110,21 @@
         opacity: 1;
     }
 }
+
+@media (max-width: 769px){
+    .banner{
+        flex-direction: column;
+        gap: 30px;
+    }
+    .banner_left{
+        width: 100% !important;
+    }
+    .banner_right{
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center;
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+    }
+}

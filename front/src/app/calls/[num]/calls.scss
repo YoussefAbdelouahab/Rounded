@@ -39,63 +39,63 @@
                     color: invert(1)
                 }
             }
+        }
 
-            .right_container {
+        .right_container {
+            display: flex;
+            width: 100%;
+            margin-top: 30px;
+
+            .stats_container {
                 display: flex;
-                width: 45%;
+                flex-direction: column;
+                gap: 10px;
+                width: 50%;
 
-                .stats_container {
+                .data {
                     display: flex;
                     flex-direction: column;
-                    gap: 10px;
-                    width: 50%;
+                    gap: 15px;
 
-                    .data {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 15px;
-
-                        .p_title {
-                            font-size: 16px;
-                        }
+                    .p_title {
+                        font-size: 16px;
                     }
-
-                    p {
-                        font-weight: bold;
-                        font-size: 14px;
-                    }
-
-                    hr {
-                        border: 1px solid lightgray;
-                    }
-
-                    .stat_title {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 5px;
-                    }
-
-                    .stat_data {
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                    }
-
                 }
 
-                .barchart_container {
-                    width: 65%;
-                    height: 100%;
-                    .MuiChartsLegend-mark{
-                        fill: #2e2e2e !important;
-                    }
-                    .css-1vuxth3-MuiBarElement-root{
-                        fill: #2e2e2e !important;
-                    }
+                p {
+                    font-weight: bold;
+                    font-size: 14px;
+                }
+
+                hr {
+                    border: 1px solid lightgray;
+                }
+
+                .stat_title {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                }
+
+                .stat_data {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+            }
+
+            .barchart_container {
+                width: 65%;
+                height: 100%;
+                .MuiChartsLegend-mark{
+                    fill: #2e2e2e !important;
+                }
+                .css-1vuxth3-MuiBarElement-root{
+                    fill: #2e2e2e !important;
                 }
             }
         }
-
 
         .table_container {
             margin-top: 100px;
@@ -301,5 +301,63 @@
     to {
         background-color: #E76F51;
         color: #531E11;
+    }
+}
+
+@media (max-width: 769px){
+    .first_line{
+        align-items: center;
+        justify-content: center;
+    }
+    .right_container{
+        flex-direction: column !important;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        .stats_container, .barchart_container{
+            width: 100% !important;
+        }
+        .barchart_container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    .filtre{
+        top: -30px !important;
+        p{
+            display: none;
+        }
+    }
+    .refresh_button{
+        top: 5px !important;
+    }
+}
+
+@media (max-width: 426px){
+    .first_line{
+        display: flex;
+        text-align: center;
+        
+        .agent_image{
+            display: none;
+        }
+    }
+
+    .css-10vg0a6-MuiResponsiveChart-container{
+        width: 100%;
+        height: 100%;
+    }
+
+    .filtre{
+        flex-direction: column !important;
+        position: initial !important;
+    }
+    .table_container{
+        align-items:normal !important;
+        justify-content: normal !important;
+    }
+    .refresh_button{
+        top: 140px !important;
     }
 }

@@ -154,3 +154,9 @@
         }
     }
 }
+
+@media (max-width: 769px) {
+    .css-11xur9t-MuiPaper-root-MuiTableContainer-root{
+        overflow-x: scroll !important;
+    }
+}

@@ -87,8 +87,28 @@ export default function Calls() {
                 });
 
                 setAgenNumber(new URL(window.location.href).pathname.split('/')[2])
-                
             })
+        if(checkedrdv){
+            setCheckedRdv(false);
+            var rdv = document.getElementById("rdv") as HTMLInputElement;
+            rdv.checked = false;
+        } 
+        if(checkedinformation){
+            setCheckedInformation(false);
+            var information = document.getElementById("information") as HTMLInputElement;
+            information.checked = false;
+        } 
+        if(checkedordonnance){
+            setCheckedOrdonnance(false);
+            var ordonnance = document.getElementById("Ordonnance") as HTMLInputElement;
+            ordonnance.checked = false;
+        } 
+        if(checkedother){
+            setCheckedOther(false);
+            var other = document.getElementById("other") as HTMLInputElement;
+            other.checked = false;
+        } 
+
     }
 
     function refreshButton() {
@@ -269,8 +289,10 @@ export default function Calls() {
 
     }
     useEffect(() => {
+        
         if (typeof window !== 'undefined') {
             try {
+                
                 refreshCalls();
                 setDayStats(dayStats.filter(a => a));
                 setTimeStats(timeStats.filter(a => a));
@@ -296,7 +318,8 @@ export default function Calls() {
                             <img src="/assets/man.png" alt="" />
                         </div>
                     </div>
-                    <div className="right_container">
+                </div>
+                <div className="right_container">
                         <div className="stats_container">
                             <div className="data">
                                 <div className="stat_title">
@@ -340,7 +363,6 @@ export default function Calls() {
                             />
                         </div>
                     </div>
-                </div>
 
                 <div className="table_container">
                     <div className="filtre">

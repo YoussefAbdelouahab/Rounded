@@ -40,7 +40,7 @@ export default function Sidebar({ page = "", AgentNumber = "" }) {
                 </div>
                 <div className="sidebar_links">
                     <Link href="/" className={page == 'home' ? 'dashboard_button active' : 'dashboard_button'}><img src="/assets/icon/home-icon.svg" alt="" />Accueil</Link>
-                    <Link href={`/calls/${AgentNumber}`} className={page == 'dashboard' ? 'dashboard_button active' : 'dashboard_button'}><img src="/assets/icon/dashboard-icon.svg" alt="" />Tableau de bord</Link>
+                    <Link href={`/calls/${AgentNumber}`} className={page == 'dashboard' ? 'dashboard_button active' : 'dashboard_button'}><img src="/assets/icon/dashboard-icon.png" alt="" />Tableau de bord</Link>
                     <Link href="/all" className={page == 'all' ? 'dashboard_button active' : 'dashboard_button'}><img src="/assets/icon/group-icon.svg" alt="" />Tous nos agents</Link>
                     <div className="sidebar_search">
                         <img src="/assets/icon/search-icon.png" alt="" />
@@ -50,6 +50,23 @@ export default function Sidebar({ page = "", AgentNumber = "" }) {
                         {showError ? <p className="error">Format accepté : 0XXXXXXXXX, +33XXXXXXXXX, +33 XX XX XX XX, 0X XX XX XX XX</p> : null}
                         {showError2 ? <p className="error">Le numéro entré ne correspond à aucun agent.</p> : null}
                     </div> : null}
+                </div>
+            </div>
+            <div className="sidebar_responsive">
+                <div className="e_logo">
+                    <img src="/assets/logo.png" alt="" />
+                </div>
+                <div className="sidebar_links">
+                    <a href="/"><div className={page == 'home' ? 'img_bg active' : 'img_bg'}>
+                        <img src="/assets/icon/home-icon.svg" alt="" />
+                    </div></a>
+                    
+                    <a href="/calls/+33769636348"><div className={page == 'dashboard' ? 'img_bg active' : 'img_bg'}>
+                        <img src="/assets/icon/dashboard-icon.png" alt="" />
+                    </div></a>
+                    <a href="/all"><div className={page == 'all' ? 'img_bg active' : 'img_bg'}>
+                        <img src="/assets/icon/group-icon.svg" alt="" />
+                    </div></a>
                 </div>
             </div>
         </>
