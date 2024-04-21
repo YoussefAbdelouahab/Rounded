@@ -1,31 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
-import Sidebar from "@/components/Sidebar/Sidebar";
-import axios from "axios"
-import { useEffect, useState } from "react";
 import "./all.scss"
-
-import CallTable from "@/components/Table/CallTable/CallTable";
-import TranslateSubject from "@/utils/TranslateSubject";
-import FromatDate from "@/utils/FormatDate";
-import ConvertDuration from "@/utils/ConvertDuration";
-import ConvertNumber from "@/utils/ConvertNumber";
+import Sidebar from "@/components/Sidebar/Sidebar";
 import AgentTable from "@/components/Table/AgentTable/AgentTable";
+import GetAgents from "@/utils/GetAgents";
+
+import { useEffect, useState } from "react";
+
 
 export default function Calls() {
     const [agents, setAgents] = useState([""])
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            try {
-                axios.get(`http://localhost:8000/api/calls/`)
-                    .then((res) => {
-                        setAgents(res.data);
-                    })
-            } catch (error) {
-                console.log(error)
-            }
-        }
+        GetAgents(setAgents)
     }, [])
 
     return (
