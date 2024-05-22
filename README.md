@@ -14,7 +14,7 @@ Rounded project - Technical test - 2024
 
 ## Table of content
 
-- [Documentation technique](#technical-documentation)
+- [Technical documentation](#technical-documentation)
   - [Information](#information)
   - [Table of content](#table-of-content)
 - [Database](#database)
